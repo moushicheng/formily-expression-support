@@ -14,7 +14,6 @@ export const getCurrentRegion = (
   text: string,
   offset: number
 ): Region | undefined => {
-  debugger;
   const regions = getRegions(text);
   if (!regions) return;
   for (const region of regions) {

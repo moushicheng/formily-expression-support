@@ -22,6 +22,14 @@
   ],
   "main": "./client/out/extension",
   "contributes": {
+    "languages": [
+      {
+        "id": "fuckjs",
+        "extensions": [
+          ".fuckjs"
+        ]
+      }
+    ],
     "grammars": [
       {
         "path": "./syntaxes/injection.json",
@@ -39,8 +47,8 @@
     "vscode:prepublish": "cd client && npm install && cd .. && npm run compile",
     "compile": "tsc -b",
     "watch": "tsc -b -w",
-    "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
-    "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
+    "lint": "eslint ./client/src  --ext .ts,.tsx",
+    "postinstall": "cd client && npm install && cd .."
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
