@@ -11,18 +11,14 @@ import {
   Uri,
   workspace,
 } from "vscode";
-import { getLanguageService } from "vscode-html-languageservice";
 import {
   LanguageClient,
   LanguageClientOptions,
   ServerOptions,
   TransportKind,
 } from "vscode-languageclient";
-import { getCSSVirtualContent, isInsideStyleRegion } from "./embeddedSupport";
 
 let client: LanguageClient;
-
-const htmlLanguageService = getLanguageService();
 
 export function activate(context: ExtensionContext) {
   debugger;
@@ -78,15 +74,12 @@ export function activate(context: ExtensionContext) {
         // ) {
         // 	return await next(document, position, context, token);
         // }
-        console.log("@111");
         const originalUri = document.uri.toString(true);
         virtualDocumentContents.set(originalUri, document.getText());
         const vdocUriString = `embedded-content://javascript/${encodeURIComponent(
           originalUri
         )}.js`;
         const vdocUri = Uri.parse(vdocUriString);
-
-        console.log("@执行脚本", vdocUri, position, context.triggerCharacter);
         return await commands.executeCommand<CompletionList>(
           "vscode.executeCompletionItemProvider",
           vdocUri,
