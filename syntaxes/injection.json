@@ -1,0 +1,35 @@
+{
+  "scopeName": "formily",
+  "injectionSelector": [
+    "L:string.quoted.double",
+    "L:string.quoted.single",
+    "string.template"
+  ],
+  "patterns": [
+    {
+      "include": "#formily-expression"
+    }
+  ],
+  "repository": {
+    "formily-expression": {
+      "begin": "{{",
+      "end": "}}",
+      "contentName": "source.js",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.other"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "keyword.other"
+        }
+      },
+      "patterns": [
+        {
+          "include": "source.js"
+        }
+      ]
+    }
+  }
+}

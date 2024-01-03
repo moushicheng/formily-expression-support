@@ -1,0 +1,53 @@
+{
+  "name": "formily-expression-support",
+  "description": "formily expression support vscode plugin",
+  "author": "moushicheng",
+  "license": "MIT",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git"
+  },
+  "icon": "logo/logo.png",
+  "publisher": "moushicheng",
+  "categories": [],
+  "keywords": [],
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescriptreact"
+  ],
+  "main": "./client/out/extension",
+  "contributes": {
+    "grammars": [
+      {
+        "path": "./syntaxes/injection.json",
+        "scopeName": "formily",
+        "injectTo": [
+          "source.js",
+          "source.ts",
+          "source.tsx",
+          "source.ts"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "cd client && npm install && cd .. && npm run compile",
+    "compile": "tsc -b",
+    "watch": "tsc -b -w",
+    "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
+    "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^16.18.34",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "eslint": "^7.26.0",
+    "typescript": "^5.3.2"
+  }
+}
