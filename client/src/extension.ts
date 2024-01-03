@@ -8,6 +8,7 @@ import {
   commands,
   CompletionList,
   ExtensionContext,
+  languages,
   Uri,
   workspace,
 } from "vscode";
@@ -17,11 +18,11 @@ import {
   ServerOptions,
   TransportKind,
 } from "vscode-languageclient";
+import { getCurrentRegion } from "./utils";
 
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-  debugger;
   // The server is implemented in node
   const serverModule = context.asAbsolutePath(
     path.join("server", "out", "server.js")
@@ -42,13 +43,32 @@ export function activate(context: ExtensionContext) {
 
   workspace.registerTextDocumentContentProvider("embedded-content", {
     provideTextDocumentContent: (uri) => {
+      debugger;
       const originalUri = uri.path.slice(1).slice(0, -3);
       const decodedUri = decodeURIComponent(originalUri);
       console.log("@params", virtualDocumentContents.get(decodedUri));
       return virtualDocumentContents.get(decodedUri);
     },
   });
-
+  languages.registerCompletionItemProvider(
+    [
+      { scheme: "file", language: "javascript" },
+      { scheme: "file", language: "javascriptreact" },
+      { scheme: "file", language: "typescript" },
+      { scheme: "file", language: "typescriptreact" },
+    ],
+    {
+      provideCompletionItems(document, position, token, context) {
+        debugger;
+        console.log(114514);
+        return undefined;
+      },
+    },
+    "a",
+    "b",
+    "c",
+    ""
+  );
   const clientOptions: LanguageClientOptions = {
     documentSelector: [
       { scheme: "file", language: "javascript" },
@@ -64,6 +84,13 @@ export function activate(context: ExtensionContext) {
         token,
         next
       ) => {
+        debugger;
+        // TODO: CheckPosition in {{}}
+        console.log("@start provide");
+        const region = getCurrentRegion(
+          document.getText(),
+          document.offsetAt(position)
+        );
         // If not in `<style>`, do not perform request forwarding
         // if (
         // 	!isInsideStyleRegion(
@@ -75,6 +102,8 @@ export function activate(context: ExtensionContext) {
         // 	return await next(document, position, context, token);
         // }
         const originalUri = document.uri.toString(true);
+        // TODO: Get correct code in {{}}
+        // such as:
         virtualDocumentContents.set(originalUri, document.getText());
         const vdocUriString = `embedded-content://javascript/${encodeURIComponent(
           originalUri

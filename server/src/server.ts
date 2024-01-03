@@ -26,8 +26,8 @@ connection.onInitialize((_params: InitializeParams) => {
       textDocumentSync: TextDocumentSyncKind.Full,
       // Tell the client that the server supports code completion
       completionProvider: {
-        resolveProvider: false,
-        triggerCharacters: ["."],
+        resolveProvider: true,
+        triggerCharacters: [".", "a", "b", "c", "d"],
       },
     },
   };
