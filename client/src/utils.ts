@@ -40,6 +40,5 @@ export const getCurrentRegionCode = (text: string, region: Region): string => {
 		}).join('\n');
 
 	content = content.slice(0, region.start) + text.slice(region.start, region.end) + content.slice(region.end);
-	console.log(content)
   return content
 };
