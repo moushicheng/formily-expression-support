@@ -18,7 +18,7 @@ import {
   ServerOptions,
   TransportKind,
 } from "vscode-languageclient";
-import { getCurrentRegion } from "./utils";
+import { getCurrentRegion, getCurrentRegionCode } from "./utils";
 import { ALL_INVOKE_CHAR } from "./const";
 
 let client: LanguageClient;
@@ -30,8 +30,7 @@ export function activate(context: ExtensionContext) {
     provideTextDocumentContent: (uri) => {
       const originalUri = uri.path.slice(1).slice(0, -3);
       const decodedUri = decodeURIComponent(originalUri);
-      console.log("@params", virtualDocumentContents.get(decodedUri));
-      return "   console.   ";
+      return virtualDocumentContents.get(decodedUri);
     },
   });
   languages.registerCompletionItemProvider(
@@ -44,17 +43,17 @@ export function activate(context: ExtensionContext) {
     ],
     {
       async provideCompletionItems(document, position, token, context) {
-        console.log(114514);
-        // TODO: CheckPosition in {{}}
-        console.log("@start provide");
+        const text=document.getText()
         const region = getCurrentRegion(
-          document.getText(),
+          text,
           document.offsetAt(position)
         );
+        if (!region) {
+          return;
+        }
         const originalUri = document.uri.toString(true);
-        // TODO: Get correct code in {{}}
-        // such as:
-        virtualDocumentContents.set(originalUri, document.getText());
+
+        virtualDocumentContents.set(originalUri,getCurrentRegionCode(text,region));
         const vdocUriString = `embedded-content://javascript/${encodeURIComponent(
           originalUri
         )}.js`;
