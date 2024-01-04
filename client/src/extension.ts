@@ -3,7 +3,6 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 
-import * as path from "path";
 import {
   commands,
   CompletionList,
@@ -12,12 +11,7 @@ import {
   Uri,
   workspace,
 } from "vscode";
-import {
-  LanguageClient,
-  LanguageClientOptions,
-  ServerOptions,
-  TransportKind,
-} from "vscode-languageclient";
+import { LanguageClient } from "vscode-languageclient";
 import { getCurrentRegion, getCurrentRegionCode } from "./utils";
 import { ALL_INVOKE_CHAR } from "./const";
 
@@ -39,21 +33,21 @@ export function activate(context: ExtensionContext) {
       { scheme: "file", language: "javascriptreact" },
       { scheme: "file", language: "typescript" },
       { scheme: "file", language: "typescriptreact" },
-      { scheme: "file", language: "fuckjs" },
     ],
     {
       async provideCompletionItems(document, position, token, context) {
-        const text=document.getText()
-        const region = getCurrentRegion(
-          text,
-          document.offsetAt(position)
-        );
+        console.log("@privide");
+        const text = document.getText();
+        const region = getCurrentRegion(text, document.offsetAt(position));
         if (!region) {
           return;
         }
         const originalUri = document.uri.toString(true);
 
-        virtualDocumentContents.set(originalUri,getCurrentRegionCode(text,region));
+        virtualDocumentContents.set(
+          originalUri,
+          getCurrentRegionCode(text, region)
+        );
         const vdocUriString = `embedded-content://javascript/${encodeURIComponent(
           originalUri
         )}.js`;
