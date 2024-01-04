@@ -2,10 +2,14 @@
 
 support formily expression
 
+![Alt text](./assets/preview_.gif)
+
 ## feature
 
 - support code highlight
 - support code completion
+  if you want to use whole completion support, please set editor.quickSuggestions.string->on
+  ![Alt text](./assets/image.png)
 
 ## Running the Sample
 
