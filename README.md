@@ -2,7 +2,7 @@
 
 support formily expression
 
-![Alt text](./assets/preview_.gif)
+![Alt text](./assets/preview.gif)
 
 ## feature
 
