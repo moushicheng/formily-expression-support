@@ -36,7 +36,6 @@ export function activate(context: ExtensionContext) {
     ],
     {
       async provideCompletionItems(document, position, token, context) {
-        console.log("@privide");
         const text = document.getText();
         const region = getCurrentRegion(text, document.offsetAt(position));
         if (!region) {

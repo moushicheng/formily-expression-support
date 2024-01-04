@@ -33,12 +33,16 @@ export const getCurrentRegion = (
 };
 
 export const getCurrentRegionCode = (text: string, region: Region): string => {
-	let content = text
-		.split('\n')
-		.map(line => {
-			return ' '.repeat(line.length);
-		}).join('\n');
+  let content = text
+    .split("\n")
+    .map((line) => {
+      return " ".repeat(line.length);
+    })
+    .join("\n");
 
-	content = content.slice(0, region.start) + text.slice(region.start, region.end) + content.slice(region.end);
-  return content
+  content =
+    content.slice(0, region.start) +
+    text.slice(region.start, region.end) +
+    content.slice(region.end);
+  return content;
 };
