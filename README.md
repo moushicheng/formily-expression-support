@@ -9,7 +9,18 @@ support formily expression
 - support code highlight
 - support code completion
   if you want to use whole completion support, please set editor.quickSuggestions.string->on
-  ![Alt text](https://github.com/moushicheng/formily-expression-support/blob/master/assets/logo.png?raw=true)
+
+  ![Alt text](https://github.com/moushicheng/formily-expression-support/blob/master/assets/image.png?raw=true)
+
+  or set this config in .vscode/setting.json
+
+  ```
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
+    "strings": "on"
+  }
+  ```
 
 ## Contribution
 
