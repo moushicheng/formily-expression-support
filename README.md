@@ -2,16 +2,16 @@
 
 support formily expression
 
-![Alt text](./assets/preview.gif)
+![Alt text](https://github.com/moushicheng/formily-expression-support/blob/master/assets/preview.gif?raw=true)
 
 ## feature
 
 - support code highlight
 - support code completion
   if you want to use whole completion support, please set editor.quickSuggestions.string->on
-  ![Alt text](./assets/image.png)
+  ![Alt text](https://github.com/moushicheng/formily-expression-support/blob/master/assets/logo.png?raw=true)
 
-## Running the Sample
+## Contribution
 
 - Run `npm install` in this folder. This installs all necessary npm modules in both the client and server folder
 - Open VS Code on this folder.
