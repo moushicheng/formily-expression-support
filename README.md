@@ -34,3 +34,7 @@ support formily expression
 - In the [Extension Development Host] instance of VSCode, open a HTML document
   - Type `<d|` to try HTML completion
   - Type `<style>.foo { c| }</style>` to try CSS completion
+
+## github
+
+https://github.com/moushicheng/formily-expression-support
