@@ -60,4 +60,5 @@ export const ALL_INVOKE_CHAR = [
   "{",
   "}",
   " ",
+  "$",
 ];

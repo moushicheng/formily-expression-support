@@ -1,3 +1,5 @@
+import { CompletionItem } from "vscode";
+
 export type Region = { start: number; end: number };
 export const getRegions = (text: string): Region[] | undefined => {
   const regionReg = new RegExp(/(['|"|`]\s*{{)([\s\S]+?)}}\s*['|"|`]/g);
@@ -45,4 +47,24 @@ export const getCurrentRegionCode = (text: string, region: Region): string => {
     text.slice(region.start, region.end) +
     content.slice(region.end);
   return content;
+};
+
+export const getScopeCompletion = (
+  code: string,
+  target: string
+): CompletionItem[] => {
+  console.log(code, target);
+  if (target === "$") {
+    return [
+      { label: "$self", kind: 1 },
+      { label: "$form", kind: 1 },
+      { label: "$values", kind: 1 },
+      { label: "$record", kind: 1 },
+      { label: "$records", kind: 1 },
+      { label: "$deps", kind: 1 },
+      { label: "$dependencies", kind: 1 },
+      { label: "$target", kind: 1 },
+    ];
+  }
+  return [];
 };
