@@ -1,3 +1,5 @@
+import { CompletionItem } from "vscode";
+
 export const ALL_INVOKE_CHAR = [
   "a",
   "b",
@@ -61,4 +63,16 @@ export const ALL_INVOKE_CHAR = [
   "}",
   " ",
   "$",
+];
+
+export type scopeVarType = (CompletionItem & { children?: scopeVarType })[];
+export const scopeVars: scopeVarType = [
+  { label: "$self", kind: 1, detail: "Field 模型", children: [] },
+  { label: "$form", kind: 1, detail: "Form 模型" },
+  { label: "$values", kind: 1, children: [] },
+  { label: "$record", kind: 1 },
+  { label: "$records", kind: 1 },
+  { label: "$deps", kind: 1 },
+  { label: "$dependencies", kind: 1 },
+  { label: "$target", kind: 1 },
 ];

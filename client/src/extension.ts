@@ -12,12 +12,9 @@ import {
   workspace,
 } from "vscode";
 import { LanguageClient } from "vscode-languageclient";
-import {
-  getCurrentRegion,
-  getCurrentRegionCode,
-  getScopeCompletion,
-} from "./utils";
+import { getCurrentRegion, getCurrentRegionCode } from "./utils";
 import { ALL_INVOKE_CHAR } from "./const";
+import { getScopeCompletion } from "./scope-completion";
 
 let client: LanguageClient;
 
@@ -60,9 +57,13 @@ export function activate(context: ExtensionContext) {
             context.triggerCharacter
           );
         const target = document.getText()[document.offsetAt(position) - 1];
-        const items = getScopeCompletion(code, target);
+        const items = getScopeCompletion(
+          code,
+          target,
+          document.offsetAt(position) - 1
+        );
         completion.items.unshift(...items);
-        console.log(completion);
+
         return completion;
       },
     },
