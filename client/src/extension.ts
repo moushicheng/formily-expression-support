@@ -8,6 +8,7 @@ import {
   CompletionList,
   ExtensionContext,
   languages,
+  Position,
   Uri,
   workspace,
 } from "vscode";
@@ -21,7 +22,7 @@ import { ALL_INVOKE_CHAR } from "./const";
 
 let client: LanguageClient;
 
-export function activate(context: ExtensionContext) {
+export function activate(activateContext: ExtensionContext) {
   const virtualDocumentContents = new Map<string, string>();
 
   workspace.registerTextDocumentContentProvider("embedded-content", {
@@ -47,6 +48,16 @@ export function activate(context: ExtensionContext) {
         }
         const originalUri = document.uri.toString(true);
         const code = getCurrentRegionCode(text, region);
+
+
+        // const corePath =Uri.joinPath(activateContext.extensionUri, 'client', 'node_modules','@formily','core','esm');
+        // const corePath={fsPath:'@formily/core'}
+        // const injectCode=`import {Field} from "${corePath.fsPath}";const $self:Field;`
+        // const injectCode='type a={a:number};const $self:a;'
+        // const pos=new Position(position.line,position.character+injectCode.length)
+
+  
+        // virtualDocumentContents.set(originalUri, injectCode+code);
         virtualDocumentContents.set(originalUri, code);
         const vdocUriString = `embedded-content://javascript/${encodeURIComponent(
           originalUri
@@ -62,7 +73,6 @@ export function activate(context: ExtensionContext) {
         const target = document.getText()[document.offsetAt(position) - 1];
         const items = getScopeCompletion(code, target);
         completion.items.unshift(...items);
-        console.log(completion);
         return completion;
       },
     },

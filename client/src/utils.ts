@@ -53,7 +53,6 @@ export const getScopeCompletion = (
   code: string,
   target: string
 ): CompletionItem[] => {
-  console.log(code, target);
   if (target === "$") {
     return [
       { label: "$self", kind: 1 },
