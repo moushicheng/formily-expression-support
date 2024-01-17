@@ -63,6 +63,7 @@ export function activate(context: ExtensionContext) {
           document.offsetAt(position) - 1
         );
         completion.items.unshift(...items);
+        console.log(completion);
 
         return completion;
       },

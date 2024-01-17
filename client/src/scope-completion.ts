@@ -1,4 +1,4 @@
-import { CompletionItem } from "vscode";
+import { CompletionItem, MarkdownString } from "vscode";
 
 const [_code, dotCode] = ["_", "."].map((item) => item.charCodeAt(0));
 const checkIsVar = (target: string) => {
@@ -61,17 +61,94 @@ export const getScopeCompletion = (
     return [];
   }
   const wordSection = getWordSection(code, scope.range);
-  console.log(wordSection);
-  if (target === "$") {
+  console.log("@wordSection", wordSection);
+  if (target === "$" && wordSection.length === 1) {
     return [
-      { label: "$self", kind: 1, detail: "Field 模型" },
-      { label: "$form", kind: 1 },
-      { label: "$values", kind: 1 },
-      { label: "$record", kind: 1 },
+      {
+        label: "$self",
+        kind: 1,
+        detail:
+          "Represents the current field instance, can be used in ordinary attribute expressions, and can also be used in x-reactions",
+        documentation: new MarkdownString(
+          `[Field Type](https://core.formilyjs.org/zh-CN/api/models/field)\n\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)`
+        ),
+      },
+      {
+        label: "$form",
+        kind: 1,
+        detail:
+          "Represents the current Form instance, which can be used in ordinary attribute expressions, and can also be used in x-reactions",
+        documentation: new MarkdownString(
+          "[Form Type](https://core.formilyjs.org/zh-CN/api/models/form)\n\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+        ),
+      },
+      {
+        label: "$values",
+        kind: 1,
+        detail: "It has the same effect as $filed.values",
+        documentation: new MarkdownString(
+          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+        ),
+      },
+      {
+        label: "$deps",
+        kind: 1,
+        detail:
+          "It can only be consumed by expressions in x-reactions, corresponding to the dependencies defined by x-reactions, and the sequence of the array is the same",
+        documentation: new MarkdownString(
+          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+        ),
+      },
+      {
+        label: "$dependencies",
+        kind: 1,
+        detail:
+          "It can only be consumed by expressions in x-reactions, corresponding to the dependencies defined by x-reactions, and the sequence of the array is the same",
+        documentation: new MarkdownString(
+          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+        ),
+      },
+      {
+        label: "$target",
+        kind: 1,
+        detail:
+          "Can only be consumed in expressions in x-reactions, representing the target field of active mode",
+        documentation: new MarkdownString(
+          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+        ),
+      },
+      {
+        label: "$observable",
+        kind: 1,
+        detail:
+          "It is used to create reactive objects in the same way as observable",
+        documentation: new MarkdownString(
+          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+        ),
+      },
+      {
+        label: "$memo",
+        kind: 1,
+        detail:
+          "Used to create persistent reference data in the same way as autorun.memo",
+        documentation: new MarkdownString(
+          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+        ),
+      },
+      {
+        label: "$effect",
+        kind: 1,
+        detail:
+          "The timing of the next microtask in response to autorun's first execution and the dispose in response to autorun are used in the same way as autorun.effect",
+        documentation: new MarkdownString(
+          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+        ),
+      },
+      {
+        label: "$record",
+        kind: 1,
+      },
       { label: "$records", kind: 1 },
-      { label: "$deps", kind: 1 },
-      { label: "$dependencies", kind: 1 },
-      { label: "$target", kind: 1 },
     ];
   }
   return [];
