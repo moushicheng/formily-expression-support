@@ -14,6 +14,7 @@ import {
 import { LanguageClient } from "vscode-languageclient";
 import { getCurrentRegion, getCurrentRegionCode } from "./utils";
 import { ALL_INVOKE_CHAR } from "./const";
+import { getScopeCompletion } from "./scope-completion";
 
 let client: LanguageClient;
 
@@ -42,22 +43,29 @@ export function activate(context: ExtensionContext) {
           return;
         }
         const originalUri = document.uri.toString(true);
-
-        virtualDocumentContents.set(
-          originalUri,
-          getCurrentRegionCode(text, region)
-        );
+        const code = getCurrentRegionCode(text, region);
+        virtualDocumentContents.set(originalUri, code);
         const vdocUriString = `embedded-content://javascript/${encodeURIComponent(
           originalUri
         )}.js`;
         const vdocUri = Uri.parse(vdocUriString);
-
-        return await commands.executeCommand<CompletionList>(
-          "vscode.executeCompletionItemProvider",
-          vdocUri,
-          position,
-          context.triggerCharacter
+        const completion: CompletionList =
+          await commands.executeCommand<CompletionList>(
+            "vscode.executeCompletionItemProvider",
+            vdocUri,
+            position,
+            context.triggerCharacter
+          );
+        const target = document.getText()[document.offsetAt(position) - 1];
+        const items = getScopeCompletion(
+          code,
+          target,
+          document.offsetAt(position) - 1
         );
+        completion.items.unshift(...items);
+        console.log(completion);
+
+        return completion;
       },
     },
     ...ALL_INVOKE_CHAR
