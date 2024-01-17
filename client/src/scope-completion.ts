@@ -1,4 +1,5 @@
 import { CompletionItem, MarkdownString } from "vscode";
+import { scopeVarType, scopeVars } from "./const";
 
 const [_code, dotCode] = ["_", "."].map((item) => item.charCodeAt(0));
 const checkIsVar = (target: string) => {
@@ -21,7 +22,7 @@ const checkIsVar = (target: string) => {
 const checkIsScope = (
   code: string,
   position: number
-): { is: boolean; range: number[] } => {
+): { is: boolean; range?: number[] } => {
   for (let i = position; i >= 0; i--) {
     const target = code[i];
 
@@ -45,11 +46,21 @@ const checkIsScope = (
     range: undefined,
   };
 };
-const getWordSection = (code: string, range: number[]) => {
-  return code
+const getWordSection = (code: string, range: number[], target: string) => {
+  const section = code
     .slice(range[0], range[1] + 1)
     .split(".")
     .filter(Boolean);
+  return {
+    section: section,
+    depth: target === "." ? section.length : section.length - 1,
+  };
+};
+const deleteCompletionsChildren = (completions: scopeVarType) => {
+  return completions.map((item) => {
+    const { children, ...other } = item;
+    return other;
+  });
 };
 export const getScopeCompletion = (
   code: string,
@@ -60,100 +71,36 @@ export const getScopeCompletion = (
   if (!scope.is) {
     return [];
   }
-  const wordSection = getWordSection(code, scope.range);
+  const wordSection = getWordSection(code, scope.range, target);
   console.log("@wordSection", wordSection);
-  if (target === "$" && wordSection.length === 1) {
-    return [
-      {
-        label: "$self",
-        kind: 1,
-        detail:
-          "Represents the current field instance, can be used in ordinary attribute expressions, and can also be used in x-reactions",
-        documentation: new MarkdownString(
-          `[Field Type](https://core.formilyjs.org/zh-CN/api/models/field)\n\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)`
-        ),
-      },
-      {
-        label: "$form",
-        kind: 1,
-        detail:
-          "Represents the current Form instance, which can be used in ordinary attribute expressions, and can also be used in x-reactions",
-        documentation: new MarkdownString(
-          "[Form Type](https://core.formilyjs.org/zh-CN/api/models/form)\n\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
-        ),
-      },
-      {
-        label: "$values",
-        kind: 1,
-        detail: "It has the same effect as $filed.values",
-        documentation: new MarkdownString(
-          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
-        ),
-      },
-      {
-        label: "$deps",
-        kind: 1,
-        detail:
-          "It can only be consumed by expressions in x-reactions, corresponding to the dependencies defined by x-reactions, and the sequence of the array is the same",
-        documentation: new MarkdownString(
-          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
-        ),
-      },
-      {
-        label: "$dependencies",
-        kind: 1,
-        detail:
-          "It can only be consumed by expressions in x-reactions, corresponding to the dependencies defined by x-reactions, and the sequence of the array is the same",
-        documentation: new MarkdownString(
-          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
-        ),
-      },
-      {
-        label: "$target",
-        kind: 1,
-        detail:
-          "Can only be consumed in expressions in x-reactions, representing the target field of active mode",
-        documentation: new MarkdownString(
-          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
-        ),
-      },
-      {
-        label: "$observable",
-        kind: 1,
-        detail:
-          "It is used to create reactive objects in the same way as observable",
-        documentation: new MarkdownString(
-          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
-        ),
-      },
-      {
-        label: "$memo",
-        kind: 1,
-        detail:
-          "Used to create persistent reference data in the same way as autorun.memo",
-        documentation: new MarkdownString(
-          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
-        ),
-      },
-      {
-        label: "$effect",
-        kind: 1,
-        detail:
-          "The timing of the next microtask in response to autorun's first execution and the dispose in response to autorun are used in the same way as autorun.effect",
-        documentation: new MarkdownString(
-          "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
-        ),
-      },
-      {
-        label: "$record",
-        kind: 1,
-      },
-      { label: "$records", kind: 1 },
-    ];
-  }
-  return [];
-};
 
-const test = "$deps.";
-const length = test.length;
-getScopeCompletion(test, test[length - 1], test.length - 1);
+  const currentCompletion = findCurrentCompletion(
+    wordSection.section,
+    wordSection.depth
+  );
+  console.log(
+    "@CurrentCompletion",
+    deleteCompletionsChildren(currentCompletion) || []
+  );
+  return deleteCompletionsChildren(currentCompletion) || [];
+};
+const findCurrentCompletion = (wordSection: string[], maxDepth) => {
+  const find = (
+    currentLayerCompletions: scopeVarType,
+    currentDepth: number
+  ) => {
+    if (currentDepth >= maxDepth) {
+      return currentLayerCompletions;
+    } else {
+      const currentWord = wordSection[currentDepth];
+      const completionItemChildren = currentLayerCompletions.find(
+        (completionItem) => completionItem.label === currentWord
+      )?.children;
+      if (!completionItemChildren) return [];
+      else {
+        return find(completionItemChildren, currentDepth + 1);
+      }
+    }
+  };
+  return find(scopeVars, 0);
+};
