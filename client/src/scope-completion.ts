@@ -72,15 +72,10 @@ export const getScopeCompletion = (
     return [];
   }
   const wordSection = getWordSection(code, scope.range, target);
-  console.log("@wordSection", wordSection);
 
   const currentCompletion = findCurrentCompletion(
     wordSection.section,
     wordSection.depth
-  );
-  console.log(
-    "@CurrentCompletion",
-    deleteCompletionsChildren(currentCompletion) || []
   );
   return deleteCompletionsChildren(currentCompletion) || [];
 };

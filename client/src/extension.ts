@@ -20,7 +20,6 @@ let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
   const virtualDocumentContents = new Map<string, string>();
-
   workspace.registerTextDocumentContentProvider("embedded-content", {
     provideTextDocumentContent: (uri) => {
       const originalUri = uri.path.slice(1).slice(0, -3);
@@ -63,7 +62,6 @@ export function activate(context: ExtensionContext) {
           document.offsetAt(position) - 1
         );
         completion.items.unshift(...items);
-        console.log(completion);
 
         return completion;
       },

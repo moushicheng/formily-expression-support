@@ -8,11 +8,11 @@
       "name": "Launch Client",
       "runtimeExecutable": "${execPath}",
       "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
-      "outFiles": ["${workspaceRoot}/client/out/**/*.js"],
+      "outFiles": ["${workspaceRoot}/out/main.js"],
       "autoAttachChildProcesses": true,
       "preLaunchTask": {
         "type": "npm",
-        "script": "watch"
+        "script": "esbuild"
       }
     },
     {
