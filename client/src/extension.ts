@@ -8,6 +8,8 @@ import {
   CompletionList,
   ExtensionContext,
   languages,
+  TextDocument,
+  TextEdit,
   Uri,
   workspace,
 } from "vscode";
@@ -20,6 +22,16 @@ let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
   const virtualDocumentContents = new Map<string, string>();
+
+  // languages.registerDocumentFormattingEditProvider("embedded-content", {
+  //   provideDocumentFormattingEdits(document: TextDocument): TextEdit[] {
+  //     debugger;
+  //     const firstLine = document.lineAt(0);
+  //     if (firstLine.text !== "42") {
+  //       return [TextEdit.insert(firstLine.range.start, "42\n")];
+  //     }
+  //   },
+  // });
 
   workspace.registerTextDocumentContentProvider("embedded-content", {
     provideTextDocumentContent: (uri) => {
@@ -63,7 +75,6 @@ export function activate(context: ExtensionContext) {
           document.offsetAt(position) - 1
         );
         completion.items.unshift(...items);
-        console.log(completion);
 
         return completion;
       },
