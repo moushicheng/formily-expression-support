@@ -23,23 +23,24 @@ let client: LanguageClient;
 export function activate(context: ExtensionContext) {
   const virtualDocumentContents = new Map<string, string>();
 
-  // languages.registerDocumentFormattingEditProvider("embedded-content", {
-  //   provideDocumentFormattingEdits(document: TextDocument): TextEdit[] {
-  //     debugger;
-  //     const firstLine = document.lineAt(0);
-  //     if (firstLine.text !== "42") {
-  //       return [TextEdit.insert(firstLine.range.start, "42\n")];
-  //     }
-  //   },
-  // });
+  languages.registerDocumentFormattingEditProvider(
+    [
+      { scheme: "file", language: "javascript" },
+      { scheme: "file", language: "javascriptreact" },
+      { scheme: "file", language: "typescript" },
+      { scheme: "file", language: "typescriptreact" },
+    ],
+    {
+      provideDocumentFormattingEdits(document: TextDocument): TextEdit[] {
+        debugger;
+        const firstLine = document.lineAt(0);
+        if (firstLine.text !== "42") {
+          return [TextEdit.insert(firstLine.range.start, "42\n")];
+        }
+      },
+    }
+  );
 
-  workspace.registerTextDocumentContentProvider("embedded-content", {
-    provideTextDocumentContent: (uri) => {
-      const originalUri = uri.path.slice(1).slice(0, -3);
-      const decodedUri = decodeURIComponent(originalUri);
-      return virtualDocumentContents.get(decodedUri);
-    },
-  });
   languages.registerCompletionItemProvider(
     [
       { scheme: "file", language: "javascript" },
