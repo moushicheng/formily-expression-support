@@ -6,11 +6,13 @@
 import {
   commands,
   CompletionList,
+  ConfigurationTarget,
   ExtensionContext,
   languages,
   TextDocument,
   TextEdit,
   Uri,
+  window,
   workspace,
 } from "vscode";
 import { LanguageClient } from "vscode-languageclient";
@@ -32,14 +34,37 @@ export function activate(context: ExtensionContext) {
     ],
     {
       provideDocumentFormattingEdits(document: TextDocument): TextEdit[] {
-        debugger;
         const firstLine = document.lineAt(0);
-        if (firstLine.text !== "42") {
-          return [TextEdit.insert(firstLine.range.start, "42\n")];
+        if (firstLine.text !== "console.log(22);") {
+          return [TextEdit.insert(firstLine.range.start, "console.log(22);\n")];
         }
       },
     }
   );
+  workspace.onDidSaveTextDocument(async (doc) => {
+    const document = window.activeTextEditor?.document;
+    const config = workspace.getConfiguration("editor", document);
+    const defaultFormatter = config.get<string>("defaultFormatter");
+    if (defaultFormatter !== "moushicheng.formily-expression-support") {
+      await config.update(
+        "defaultFormatter",
+        "moushicheng.formily-expression-support",
+        undefined,
+        true
+      );
+      await commands.executeCommand("editor.action.formatDocument");
+      if (config.get<boolean>("formatOnSave")) {
+        await commands.executeCommand("workbench.action.files.save");
+      }
+      // Return back to the original configuration
+      await config.update(
+        "defaultFormatter",
+        defaultFormatter,
+        undefined,
+        true
+      );
+    }
+  });
 
   languages.registerCompletionItemProvider(
     [
