@@ -6,18 +6,21 @@
 import {
   commands,
   CompletionList,
+  ConfigurationTarget,
   ExtensionContext,
   languages,
+  Position,
+  Range,
   TextDocument,
   TextEdit,
   Uri,
+  window,
   workspace,
 } from "vscode";
 import { LanguageClient } from "vscode-languageclient";
-import { getCurrentRegion, getCurrentRegionCode } from "./utils";
+import { getCurrentRegion, getCurrentRegionCode, getRegions } from "./utils";
 import { ALL_INVOKE_CHAR } from "./const";
 import { getScopeCompletion } from "./scope-completion";
-
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
@@ -31,16 +34,33 @@ export function activate(context: ExtensionContext) {
       { scheme: "file", language: "typescriptreact" },
     ],
     {
-      provideDocumentFormattingEdits(document: TextDocument): TextEdit[] {
-        debugger;
-        const firstLine = document.lineAt(0);
-        if (firstLine.text !== "42") {
-          return [TextEdit.insert(firstLine.range.start, "42\n")];
+      async provideDocumentFormattingEdits(
+        document: TextDocument
+      ): Promise<TextEdit[]> {
+        const text = document.getText();
+        const regions = getRegions(text);
+        const res = [];
+        for (const region of regions) {
+          const start = region.start;
+          const end = region.end;
+          const startPos = document.positionAt(start);
+          const endPos = document.positionAt(end);
+          const code = text.slice(start, end);
+          // debugger;
+          res.push(TextEdit.replace(new Range(startPos, endPos), code));
         }
+        return undefined;
+        // return res;
       },
     }
   );
-
+  workspace.registerTextDocumentContentProvider("embedded-content", {
+    provideTextDocumentContent: (uri) => {
+      const originalUri = uri.path.slice(1).slice(0, -3);
+      const decodedUri = decodeURIComponent(originalUri);
+      return virtualDocumentContents.get(decodedUri);
+    },
+  });
   languages.registerCompletionItemProvider(
     [
       { scheme: "file", language: "javascript" },
@@ -76,6 +96,7 @@ export function activate(context: ExtensionContext) {
           document.offsetAt(position) - 1
         );
         completion.items.unshift(...items);
+        console.log("@completion", completion);
 
         return completion;
       },
