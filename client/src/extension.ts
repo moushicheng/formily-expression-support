@@ -44,7 +44,7 @@ export function activate(context: ExtensionContext) {
           const startPos = document.positionAt(start);
           const endPos = document.positionAt(end);
           const code = text.slice(start, end);
-          const formattedCode = beautify(code);
+          const formattedCode = beautify(code, { preserve_newlines: true });
           res.push(
             TextEdit.replace(new Range(startPos, endPos), formattedCode)
           );
