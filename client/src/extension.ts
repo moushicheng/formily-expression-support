@@ -6,15 +6,12 @@
 import {
   commands,
   CompletionList,
-  ConfigurationTarget,
   ExtensionContext,
   languages,
-  Position,
   Range,
   TextDocument,
   TextEdit,
   Uri,
-  window,
   workspace,
 } from "vscode";
 import { LanguageClient } from "vscode-languageclient";
