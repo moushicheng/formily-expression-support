@@ -12,6 +12,7 @@ import {
   TextDocument,
   TextEdit,
   Uri,
+  window,
   workspace,
 } from "vscode";
 import { LanguageClient } from "vscode-languageclient";
@@ -53,6 +54,30 @@ export function activate(context: ExtensionContext) {
       },
     }
   );
+    workspace.onDidSaveTextDocument(async (doc) => {
+    const document = window.activeTextEditor?.document;
+    const config = workspace.getConfiguration("editor", document);
+    const defaultFormatter = config.get<string>("defaultFormatter");
+    if (defaultFormatter !== "moushicheng.formily-expression-support") {
+      await config.update(
+        "defaultFormatter",
+        "moushicheng.formily-expression-support",
+        undefined,
+        true
+      );
+      await commands.executeCommand("editor.action.formatDocument");
+      if (config.get<boolean>("formatOnSave")) {
+        await commands.executeCommand("workbench.action.files.save");
+      }
+      // Return back to the original configuration
+      await config.update(
+        "defaultFormatter",
+        defaultFormatter,
+        undefined,
+        true
+      );
+    }
+  });
   workspace.registerTextDocumentContentProvider("embedded-content", {
     provideTextDocumentContent: (uri) => {
       const originalUri = uri.path.slice(1).slice(0, -3);
