@@ -19,6 +19,7 @@ import { getCurrentRegion, getCurrentRegionCode, getRegions } from "./utils";
 import { ALL_INVOKE_CHAR } from "./const";
 import { getScopeCompletion } from "./scope-completion";
 let client: LanguageClient;
+const beautify = require("js-beautify");
 
 export function activate(context: ExtensionContext) {
   const virtualDocumentContents = new Map<string, string>();
@@ -43,11 +44,12 @@ export function activate(context: ExtensionContext) {
           const startPos = document.positionAt(start);
           const endPos = document.positionAt(end);
           const code = text.slice(start, end);
-          // debugger;
-          res.push(TextEdit.replace(new Range(startPos, endPos), code));
+          const formattedCode = beautify(code);
+          res.push(
+            TextEdit.replace(new Range(startPos, endPos), formattedCode)
+          );
         }
-        return undefined;
-        // return res;
+        return res;
       },
     }
   );
