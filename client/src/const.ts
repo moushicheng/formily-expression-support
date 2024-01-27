@@ -1,6 +1,6 @@
 import { CompletionItem, MarkdownString } from "vscode";
 
-export const SELF_FORMATTER="moushicheng.formily-expression-support"
+export const SELF_FORMATTER = "moushicheng.formily-expression-support";
 export const ALL_INVOKE_CHAR = [
   "a",
   "b",
