@@ -23,7 +23,7 @@ const beautify = require("js-beautify");
 const getFormatter = (config: WorkspaceConfiguration) => {
   return config.get<string>("defaultFormatter");
 };
-const checkEnable = (): boolean => {
+const checkConfiguration = (): boolean => {
   const config = workspace.getConfiguration(
     "formily",
     window.activeTextEditor?.document
@@ -31,6 +31,14 @@ const checkEnable = (): boolean => {
   const result: boolean = config?.get?.("useFormatter");
 
   return result;
+};
+const checkEnableLanguage = (languageId) => {
+  return [
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "javascriptreact",
+  ].includes(languageId);
 };
 
 export const registerFormatter = (context: ExtensionContext): Disposable[] => {
@@ -67,10 +75,12 @@ export const registerFormatter = (context: ExtensionContext): Disposable[] => {
     }
   );
   const dis2 = workspace.onDidSaveTextDocument(async (doc) => {
-    if (!checkEnable()) return;
+    if (!checkConfiguration()) return;
+
+    if (!checkEnableLanguage(doc.languageId)) return;
     // config.update will trigger setting.json onDidSaveTextDocument
     // but we don't have to worry about that
-    if (doc.languageId === "jsonc") return;
+
     const config = workspace.getConfiguration(
       "editor",
       window.activeTextEditor?.document
