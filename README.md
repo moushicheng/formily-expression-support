@@ -22,6 +22,8 @@ support formily expression
   }
   ```
 
+- auto format your expression
+
 ## Contribution
 
 - Run `npm install` in this folder. This installs all necessary npm modules in both the client and server folder
