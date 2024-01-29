@@ -2,19 +2,19 @@
 
 [english](https://github.com/moushicheng/formily-expression-support/blob/master/README.md)|[中文](https://github.com/moushicheng/formily-expression-support/blob/master/README_CN.md)
 
-support formily expression
+formily 表达式的语法支持插件
 
 ![Alt text](https://github.com/moushicheng/formily-expression-support/blob/master/assets/preview.gif?raw=true)
 
 ## feature
 
-- support code highlight
-- support code completion
-  if you want to use whole completion support, please set editor.quickSuggestions.string->on
+- 支持代码高亮
+- 支持代码补全
+  如果你想获得完整的代码补全功能，请设置 editor.quickSuggestions.string->on
 
   ![Alt text](https://github.com/moushicheng/formily-expression-support/blob/master/assets/image.png?raw=true)
 
-  or set this config in .vscode/setting.json
+  或者设置配置在.vscode/setting.json，如下 ⬇️
 
   ```
   "editor.quickSuggestions": {
@@ -24,7 +24,7 @@ support formily expression
   }
   ```
 
-- auto format your expression
+- 自动格式化你的表达式
 
 ## Contribution
 
