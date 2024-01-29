@@ -9,7 +9,7 @@ import { registerCompletion } from "./completion";
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-  registerFormatter(context);
+  // registerFormatter(context);
   registerCompletion(context);
 }
 
