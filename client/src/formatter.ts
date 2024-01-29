@@ -95,19 +95,17 @@ export const registerFormatter = (context: ExtensionContext): Disposable[] => {
       await config.update(
         "defaultFormatter",
         SELF_FORMATTER,
-        ConfigurationTarget.WorkspaceFolder,
+        ConfigurationTarget.Global,
         true
       );
       await commands.executeCommand("editor.action.formatDocument");
       // We need to save it automatically after formatting
-      if (config.get<boolean>("formatOnSave")) {
-        await commands.executeCommand("workbench.action.files.save");
-      }
+      await commands.executeCommand("workbench.action.files.save");
       // Return back to the original configuration
       await config.update(
         "defaultFormatter",
         defaultFormatter,
-        ConfigurationTarget.WorkspaceFolder,
+        ConfigurationTarget.Global,
         true
       );
       runningSignal = false;
