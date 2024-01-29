@@ -29,7 +29,6 @@ const checkEnable = (): boolean => {
     window.activeTextEditor?.document
   );
   const result: boolean = config?.get?.("useFormatter");
-  console.log(result);
 
   return result;
 };
@@ -86,7 +85,7 @@ export const registerFormatter = (context: ExtensionContext): Disposable[] => {
       await config.update(
         "defaultFormatter",
         SELF_FORMATTER,
-        ConfigurationTarget.Workspace,
+        ConfigurationTarget.WorkspaceFolder,
         true
       );
       await commands.executeCommand("editor.action.formatDocument");
@@ -98,7 +97,7 @@ export const registerFormatter = (context: ExtensionContext): Disposable[] => {
       await config.update(
         "defaultFormatter",
         defaultFormatter,
-        ConfigurationTarget.Workspace,
+        ConfigurationTarget.WorkspaceFolder,
         true
       );
       runningSignal = false;
