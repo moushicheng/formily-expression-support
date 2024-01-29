@@ -3,7 +3,7 @@
   "description": "formily expression support vscode plugin",
   "author": "moushicheng",
   "license": "MIT",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/moushicheng/formily-expression-support"
@@ -29,6 +29,16 @@
   ],
   "main": "./out/main.js",
   "contributes": {
+    "configuration": {
+      "title": "TypeScript",
+      "properties": {
+        "formily.useFormatter": {
+          "type": "boolean",
+          "default": true,
+          "description": "format your expression"
+        }
+      }
+    },
     "grammars": [
       {
         "path": "./syntaxes/injection.json",

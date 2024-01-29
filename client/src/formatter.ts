@@ -14,6 +14,7 @@ import {
   ConfigurationTarget,
   WorkspaceConfiguration,
   ExtensionContext,
+  Disposable,
 } from "vscode";
 import { getRegions } from "./utils";
 import { SELF_FORMATTER } from "./const";
@@ -23,9 +24,9 @@ const getFormatter = (config: WorkspaceConfiguration) => {
   return config.get<string>("defaultFormatter");
 };
 
-export const registerFormatter = (context: ExtensionContext) => {
+export const registerFormatter = (context: ExtensionContext): Disposable[] => {
   let runningSignal = false;
-  languages.registerDocumentFormattingEditProvider(
+  const dis1 = languages.registerDocumentFormattingEditProvider(
     [
       { scheme: "file", language: "javascript" },
       { scheme: "file", language: "javascriptreact" },
@@ -45,7 +46,9 @@ export const registerFormatter = (context: ExtensionContext) => {
           const startPos = document.positionAt(start);
           const endPos = document.positionAt(end);
           const code = text.slice(start, end);
-          const formattedCode = beautify(code, { preserve_newlines: true });
+          const formattedCode = beautify(code, {
+            brace_style: "collapse-preserve-inline",
+          });
           res.push(
             TextEdit.replace(new Range(startPos, endPos), formattedCode)
           );
@@ -54,7 +57,7 @@ export const registerFormatter = (context: ExtensionContext) => {
       },
     }
   );
-  workspace.onDidSaveTextDocument(async (doc) => {
+  const dis2 = workspace.onDidSaveTextDocument(async (doc) => {
     // config.update will trigger setting.json onDidSaveTextDocument
     // but we don't have to worry about that
     if (doc.languageId === "jsonc") return;
@@ -90,4 +93,5 @@ export const registerFormatter = (context: ExtensionContext) => {
       runningSignal = false;
     }
   });
+  return [dis1, dis2];
 };

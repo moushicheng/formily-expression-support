@@ -1,6 +1,7 @@
 import {
   commands,
   CompletionList,
+  Disposable,
   ExtensionContext,
   languages,
   Uri,
@@ -9,16 +10,19 @@ import {
 import { getCurrentRegion, getCurrentRegionCode } from "./utils";
 import { ALL_INVOKE_CHAR } from "./const";
 import { getScopeCompletion } from "./scope-completion";
-export const registerCompletion = (context: ExtensionContext) => {
+export const registerCompletion = (context: ExtensionContext): Disposable[] => {
   const virtualDocumentContents = new Map<string, string>();
-  workspace.registerTextDocumentContentProvider("embedded-content", {
-    provideTextDocumentContent: (uri) => {
-      const originalUri = uri.path.slice(1).slice(0, -3);
-      const decodedUri = decodeURIComponent(originalUri);
-      return virtualDocumentContents.get(decodedUri);
-    },
-  });
-  languages.registerCompletionItemProvider(
+  const dis1 = workspace.registerTextDocumentContentProvider(
+    "embedded-content",
+    {
+      provideTextDocumentContent: (uri) => {
+        const originalUri = uri.path.slice(1).slice(0, -3);
+        const decodedUri = decodeURIComponent(originalUri);
+        return virtualDocumentContents.get(decodedUri);
+      },
+    }
+  );
+  const dis2 = languages.registerCompletionItemProvider(
     [
       { scheme: "file", language: "javascript" },
       { scheme: "file", language: "javascriptreact" },
@@ -58,4 +62,5 @@ export const registerCompletion = (context: ExtensionContext) => {
     },
     ...ALL_INVOKE_CHAR
   );
+  return [dis1, dis2];
 };

@@ -2,20 +2,19 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
-import { ExtensionContext } from "vscode";
-import { LanguageClient } from "vscode-languageclient";
+import { Disposable, ExtensionContext } from "vscode";
 import { registerFormatter } from "./formatter";
 import { registerCompletion } from "./completion";
-let client: LanguageClient;
-
+let disposables: Disposable[] = [];
 export function activate(context: ExtensionContext) {
-  // registerFormatter(context);
-  registerCompletion(context);
+  const formatterDisposables = registerFormatter(context);
+  const CompletionDisposables = registerCompletion(context);
+  disposables.push(...formatterDisposables, ...CompletionDisposables);
 }
 
-export function deactivate(): Thenable<void> | undefined {
-  if (!client) {
-    return undefined;
+export function deactivate() {
+  if (disposables) {
+    disposables.forEach((item) => item.dispose());
   }
-  return client.stop();
+  disposables = [];
 }
