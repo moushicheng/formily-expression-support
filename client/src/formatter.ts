@@ -55,13 +55,14 @@ export const registerFormatter = (context: ExtensionContext) => {
     }
   );
   workspace.onDidSaveTextDocument(async (doc) => {
-    if (doc.languageId === "josnc") return;
+    // config.update will trigger setting.json onDidSaveTextDocument
+    // but we don't have to worry about that
+    if (doc.languageId === "jsonc") return;
     const config = workspace.getConfiguration(
       "editor",
       window.activeTextEditor?.document
     );
     const defaultFormatter = getFormatter(config);
-    console.log(defaultFormatter, "@@@");
     if (
       defaultFormatter !== SELF_FORMATTER &&
       Boolean(defaultFormatter) &&
@@ -75,6 +76,7 @@ export const registerFormatter = (context: ExtensionContext) => {
         true
       );
       await commands.executeCommand("editor.action.formatDocument");
+      // We need to save it automatically after formatting
       if (config.get<boolean>("formatOnSave")) {
         await commands.executeCommand("workbench.action.files.save");
       }
