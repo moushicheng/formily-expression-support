@@ -13,10 +13,10 @@ import {
   workspace,
   ConfigurationTarget,
   WorkspaceConfiguration,
-  ExtensionContext
+  ExtensionContext,
 } from "vscode";
-import {  getRegions } from "./utils";
-import {SELF_FORMATTER } from "./const";
+import { getRegions } from "./utils";
+import { SELF_FORMATTER } from "./const";
 const beautify = require("js-beautify");
 
 const getFormatter = (config: WorkspaceConfiguration) => {
@@ -24,7 +24,7 @@ const getFormatter = (config: WorkspaceConfiguration) => {
 };
 
 export const registerFormatter = (context: ExtensionContext) => {
-  let runningSignal=false
+  let runningSignal = false;
   languages.registerDocumentFormattingEditProvider(
     [
       { scheme: "file", language: "javascript" },
@@ -55,12 +55,13 @@ export const registerFormatter = (context: ExtensionContext) => {
     }
   );
   workspace.onDidSaveTextDocument(async (doc) => {
+    if (doc.languageId === "josnc") return;
     const config = workspace.getConfiguration(
       "editor",
       window.activeTextEditor?.document
     );
     const defaultFormatter = getFormatter(config);
-    console.log("@", defaultFormatter, runningSignal);
+    console.log(defaultFormatter, "@@@");
     if (
       defaultFormatter !== SELF_FORMATTER &&
       Boolean(defaultFormatter) &&
