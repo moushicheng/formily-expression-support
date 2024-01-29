@@ -30,7 +30,7 @@
   "main": "./out/main.js",
   "contributes": {
     "configuration": {
-      "title": "TypeScript",
+      "title": "formily-expression-support",
       "properties": {
         "formily.useFormatter": {
           "type": "boolean",

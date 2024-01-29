@@ -23,6 +23,16 @@ const beautify = require("js-beautify");
 const getFormatter = (config: WorkspaceConfiguration) => {
   return config.get<string>("defaultFormatter");
 };
+const checkEnable = (): boolean => {
+  const config = workspace.getConfiguration(
+    "formily",
+    window.activeTextEditor?.document
+  );
+  const result: boolean = config?.get?.("useFormatter");
+  console.log(result);
+
+  return result;
+};
 
 export const registerFormatter = (context: ExtensionContext): Disposable[] => {
   let runningSignal = false;
@@ -58,6 +68,7 @@ export const registerFormatter = (context: ExtensionContext): Disposable[] => {
     }
   );
   const dis2 = workspace.onDidSaveTextDocument(async (doc) => {
+    if (!checkEnable()) return;
     // config.update will trigger setting.json onDidSaveTextDocument
     // but we don't have to worry about that
     if (doc.languageId === "jsonc") return;
