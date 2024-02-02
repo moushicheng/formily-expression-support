@@ -25,7 +25,7 @@ formily 表达式的语法支持插件
   ```
 
 - 自动格式化你的表达式
-
+你可以关闭该功能在setting.json中，使用Formily.useFormatter配置
 ## Contribution
 
 - Run `npm install` in this folder. This installs all necessary npm modules in both the client and server folder

@@ -25,6 +25,7 @@ support formily expression
   ```
 
 - auto format your expression
+you can close this feature use setting formily.useFormatter:false
 
 ## Contribution
 
