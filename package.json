@@ -35,7 +35,7 @@
         "formily.useFormatter": {
           "type": "boolean",
           "default": true,
-          "description": "format your expression"
+          "description": "auto format your expression"
         }
       }
     },
