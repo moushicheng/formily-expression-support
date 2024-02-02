@@ -74,17 +74,14 @@ export const registerFormatter = (context: ExtensionContext): Disposable[] => {
       },
     }
   );
-  const dis2 = workspace.onDidSaveTextDocument(async (doc) => {
+  const dis2 = workspace.onDidSaveTextDocument(async () => {
+    const doc = window.activeTextEditor?.document;
     if (!checkConfiguration()) return;
-
-    if (!checkEnableLanguage(doc.languageId)) return;
     // config.update will trigger setting.json onDidSaveTextDocument
     // but we don't have to worry about that
+    if (!checkEnableLanguage(doc.languageId)) return;
 
-    const config = workspace.getConfiguration(
-      "editor",
-      window.activeTextEditor?.document
-    );
+    const config = workspace.getConfiguration("editor", doc);
     const defaultFormatter = getFormatter(config);
     if (
       defaultFormatter !== SELF_FORMATTER &&
