@@ -18,6 +18,13 @@ export const getRegions = (text: string): Region[] | undefined => {
   }
   return result;
 };
+export const isExpressionExist = (text: string): Boolean => {
+  const regionReg = new RegExp(/(['|"|`]\s*{{)([\s\S]+?)}}\s*['|"|`]/g);
+  const regionIter: IterableIterator<RegExpMatchArray> =
+    text.matchAll(regionReg);
+  if ([...regionIter].length > 0) return true;
+  return false;
+};
 export const getCurrentRegion = (
   text: string,
   offset: number

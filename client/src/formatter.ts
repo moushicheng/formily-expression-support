@@ -16,7 +16,7 @@ import {
   ExtensionContext,
   Disposable,
 } from "vscode";
-import { getRegions } from "./utils";
+import { getRegions, isExpressionExist } from "./utils";
 import { SELF_FORMATTER } from "./const";
 const beautify = require("js-beautify");
 
@@ -76,10 +76,13 @@ export const registerFormatter = (context: ExtensionContext): Disposable[] => {
   );
   const dis2 = workspace.onDidSaveTextDocument(async () => {
     const doc = window.activeTextEditor?.document;
+    // check whether the user use format capacity
     if (!checkConfiguration()) return;
     // config.update will trigger setting.json onDidSaveTextDocument
     // but we don't have to worry about that
     if (!checkEnableLanguage(doc.languageId)) return;
+    // if no expression, return
+    if (!isExpressionExist(doc.getText())) return;
 
     const config = workspace.getConfiguration("editor", doc);
     const defaultFormatter = getFormatter(config);
