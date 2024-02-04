@@ -24,7 +24,7 @@ support formily expression
   }
   ```
 
-- auto format your expression
+- [experimental]auto format your expression
 you can close this feature use setting formily.useFormatter:false
 
 ## Contribution
@@ -34,11 +34,7 @@ you can close this feature use setting formily.useFormatter:false
 - Press Ctrl+Shift+B to compile the client and server.
 - Switch to the Debug viewlet.
 - Select `Launch Client` from the drop down.
-- Run the launch config.
-- If you want to debug the server as well use the launch configuration `Attach to Server`
-- In the [Extension Development Host] instance of VSCode, open a HTML document
-  - Type `<d|` to try HTML completion
-  - Type `<style>.foo { c| }</style>` to try CSS completion
+- Run the launch config.n
 
 ## github
 
