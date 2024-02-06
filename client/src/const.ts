@@ -428,7 +428,7 @@ export const scopeVars: scopeVarType = [
     detail:
       "Represents the current field instance, can be used in ordinary attribute expressions, and can also be used in x-reactions",
     documentation: new MarkdownString(
-      `[Field Type](https://core.formilyjs.org/zh-CN/api/models/field)\n\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)`
+      `___\n[Field Type](https://core.formilyjs.org/zh-CN/api/models/field)\n\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)`
     ),
     children: FiledChildrenCompletions,
   },
@@ -438,7 +438,7 @@ export const scopeVars: scopeVarType = [
     detail:
       "Represents the current Form instance, which can be used in ordinary attribute expressions, and can also be used in x-reactions",
     documentation: new MarkdownString(
-      "[Form Type](https://core.formilyjs.org/zh-CN/api/models/form)\n\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+      "___\n[Form Type](https://core.formilyjs.org/zh-CN/api/models/form)\n\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
     ),
     children: FormChildrenCompletions,
   },
@@ -447,7 +447,7 @@ export const scopeVars: scopeVarType = [
     kind: 1,
     detail: "It has the same effect as $filed.values",
     documentation: new MarkdownString(
-      "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+      "___\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
     ),
   },
   {
@@ -456,7 +456,7 @@ export const scopeVars: scopeVarType = [
     detail:
       "It can only be consumed by expressions in x-reactions, corresponding to the dependencies defined by x-reactions, and the sequence of the array is the same",
     documentation: new MarkdownString(
-      "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+      "___\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
     ),
   },
   {
@@ -465,7 +465,7 @@ export const scopeVars: scopeVarType = [
     detail:
       "It can only be consumed by expressions in x-reactions, corresponding to the dependencies defined by x-reactions, and the sequence of the array is the same",
     documentation: new MarkdownString(
-      "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+      "___\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
     ),
   },
   {
@@ -474,7 +474,7 @@ export const scopeVars: scopeVarType = [
     detail:
       "Can only be consumed in expressions in x-reactions, representing the target field of active mode",
     documentation: new MarkdownString(
-      "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+      "___\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
     ),
   },
   {
@@ -483,7 +483,7 @@ export const scopeVars: scopeVarType = [
     detail:
       "It is used to create reactive objects in the same way as observable",
     documentation: new MarkdownString(
-      "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+      "___\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
     ),
   },
   {
@@ -492,7 +492,7 @@ export const scopeVars: scopeVarType = [
     detail:
       "Used to create persistent reference data in the same way as autorun.memo",
     documentation: new MarkdownString(
-      "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+      "___\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
     ),
   },
   {
@@ -501,7 +501,7 @@ export const scopeVars: scopeVarType = [
     detail:
       "The timing of the next microtask in response to autorun's first execution and the dispose in response to autorun are used in the same way as autorun.effect",
     documentation: new MarkdownString(
-      "[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
+      "___\n[Built-in expression](https://react.formilyjs.org/api/shared/schema#built-in-expression-scope)"
     ),
   },
   {
