@@ -153,7 +153,7 @@ const FiledChildrenCompletions = [
   {
     label: "validator",
     kind: 1,
-    detail: "[[FieldValidator](#fieldvalidator)][ReadOnly] Field validator",
+    detail: "[FieldValidator][ReadOnly] Field validator",
   },
   {
     label: "decorator",
@@ -168,31 +168,30 @@ const FiledChildrenCompletions = [
   {
     label: "feedbacks",
     kind: 1,
-    detail:
-      "[[IFieldFeedback](#ifieldfeedback)[]][ReadOnly] Field feedback information",
+    detail: "[IFieldFeedback][ReadOnly] Field feedback information",
   },
   {
     label: "parent",
     kind: 1,
-    detail: "[[GeneralField](#generalfield)][ReadOnly] Parent field",
+    detail: "[GeneralField][ReadOnly] Parent field",
   },
   {
     label: "errors",
     kind: 1,
     detail:
-      "[[IFormFeedback](/api/models/form/#iformfeedback)[]][ReadOnly] Field all error message(include children)",
+      "[IFormFeedback][ReadOnly] Field all error message(include children)",
   },
   {
     label: "warnings",
     kind: 1,
     detail:
-      "[[IFormFeedback](/api/models/form/#iformfeedback)[]][ReadOnly] Field all warning message(include children)",
+      "[IFormFeedback][ReadOnly] Field all warning message(include children)",
   },
   {
     label: "successes",
     kind: 1,
     detail:
-      "[[IFormFeedback](/api/models/form/#iformfeedback)[]][ReadOnly] Field all success message(include children)",
+      "[IFormFeedback][ReadOnly] Field all success message(include children)",
   },
   {
     label: "valid",
@@ -213,14 +212,12 @@ const FiledChildrenCompletions = [
   {
     label: "display",
     kind: 1,
-    detail:
-      "[[FieldDisplayTypes](#fielddisplaytypes)][ReadOnly] Field display status",
+    detail: "[FieldDisplayTypes][ReadOnly] Field display status",
   },
   {
     label: "pattern",
     kind: 1,
-    detail:
-      "[[FieldPatternTypes](#fieldpatterntypes)][ReadOnly] Field interaction mode",
+    detail: "[FieldPatternTypes][ReadOnly] Field interaction mode",
   },
   {
     label: "required",
@@ -260,8 +257,7 @@ const FiledChildrenCompletions = [
   {
     label: "validateStatus",
     kind: 1,
-    detail:
-      "[[FieldValidateStatus](#fieldvalidatestatus)][ReadOnly] Field validation status",
+    detail: "[FieldValidateStatus]][ReadOnly] Field validation status",
   },
   {
     label: "content",
